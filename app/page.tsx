@@ -3,9 +3,153 @@
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { Menu, X, ChevronRight, Heart } from 'lucide-react'
+import { Menu, X, ChevronRight, Globe } from 'lucide-react'
+
+type Language = 'en' | 'rw'
+
+const translations = {
+  en: {
+    home: 'Home',
+    aboutUs: 'About Us',
+    classes: 'Classes',
+    membership: 'Membership',
+    contact: 'Contact Us',
+    heroTitle: 'TRANSFORM YOUR BODY AT THE FITNESS ARENA GYM',
+    heroSubtitle: 'Join our state-of-the-art fitness facility located in Ruyenzi, Gihara. Experience expert training, modern equipment, and a welcoming community for all fitness levels.',
+    joinNow: 'Join Now',
+    membersActive: '500+',
+    membersLabel: 'Active Members',
+    classesOffered: '20+',
+    classesLabel: 'Classes Daily',
+    yearsExperience: '10+',
+    yearsLabel: 'Years Experience',
+    trainers: '15+',
+    trainersLabel: 'Expert Trainers',
+    exploreClasses: 'Explore Our Classes',
+    aerobics: 'Aerobics',
+    aerobicsDesc: 'High-energy cardio sessions designed for all fitness levels. Build endurance and boost your cardiovascular health through dynamic movements.',
+    strength: 'Strength Training',
+    strengthDesc: 'Build muscle and increase your strength with our comprehensive strength programs. Access modern equipment and expert guidance.',
+    yoga: 'Yoga & Flexibility',
+    yogaDesc: 'Improve flexibility, balance, and mental wellness through guided yoga sessions. Perfect for all ages and experience levels.',
+    weightLoss: 'Weight Loss Program',
+    weightLossDesc: 'Personalized weight loss programs combining cardio, strength training, and nutrition guidance for lasting results.',
+    aboutGym: 'About The Fitness Arena Gym',
+    aboutDesc1: 'Premier fitness facility in Ruyenzi, Gihara near Facebook Bar',
+    aboutDesc2: 'Expert trainers committed to your fitness journey and personal goals',
+    aboutDesc3: 'State-of-the-art equipment and modern facilities for all members',
+    aboutDesc4: 'Inclusive community welcoming everyone from beginners to athletes',
+    contactUs: 'Contact Us',
+    ourPackages: 'Our Membership Packages',
+    basic: 'Basic',
+    basicPrice: '₹500',
+    basicDesc: 'Essential gym access with basic equipment',
+    standard: 'Standard',
+    standardPrice: '₹1,000',
+    standardDesc: 'Full gym access + 4 classes per week',
+    premium: 'Premium',
+    premiumPrice: '₹1,500',
+    premiumDesc: 'Unlimited classes + personal trainer consultation',
+    selectPlan: 'Select Plan',
+    testimonials: 'MEMBER STORIES',
+    testimonial1: 'The Fitness Arena Gym transformed my fitness journey. The trainers are incredibly supportive and the facilities are top-notch!',
+    testimonial1Author: 'Grace M.',
+    testimonial1Role: 'Member',
+    testimonial2: 'I love the aerobics classes here! The instructors make it fun and engaging. Highly recommended!',
+    testimonial2Author: 'Jean P.',
+    testimonial2Role: 'Member',
+    testimonial3: 'Finally found a gym that feels welcoming and professional. Great atmosphere and excellent training!',
+    testimonial3Author: 'Marie K.',
+    testimonial3Role: 'Member',
+    newsletter: 'Get Fitness Tips',
+    newsletterDesc: 'Subscribe to receive our weekly fitness tips, workout routines, and health advice delivered to your inbox.',
+    email: 'Enter your email address',
+    subscribe: 'Subscribe',
+    getInTouch: 'Get In Touch',
+    yourName: 'Your Name',
+    yourEmail: 'Your Email',
+    yourMessage: 'Your Message',
+    sendMessage: 'Send Message',
+    location: 'Location',
+    locationDetail: 'Ruyenzi, Gihara near Facebook Bar',
+    phone: 'Phone',
+    hours: 'Hours',
+    hoursDetail: 'Mon - Sun: 6:00 AM - 10:00 PM',
+    followUs: 'Follow Us',
+  },
+  rw: {
+    home: 'Nyumba',
+    aboutUs: 'Kubyigwize',
+    classes: 'Amasomo',
+    membership: 'Ubugize',
+    contact: 'Kurikiza',
+    heroTitle: 'SHINUZA UMUBIRI WAWE MU GYM YA FITNESS ARENA',
+    heroSubtitle: 'Jyongereza inyumba yacyubahiro yimurikire ibikoresho byerekire fitness. Muri Ruyenzi, Gihara hafi ya Facebook Bar. Nizeranye n\'abakoreshakazi babigize neza n\'amagumire akomeye.',
+    joinNow: 'Jyongereza',
+    membersActive: '500+',
+    membersLabel: 'Abagize Bakuri',
+    classesOffered: '20+',
+    classesLabel: 'Amasomo Buri Munsi',
+    yearsExperience: '10+',
+    yearsLabel: 'Imyaka ye Gahunda',
+    trainers: '15+',
+    trainersLabel: 'Abakoze Barwaye',
+    exploreClasses: 'Reba Amasomo Yacu',
+    aerobics: 'Aerobics',
+    aerobicsDesc: 'Amasomo atahura iterambere rya moteri. Yigutsa ubwiyunge n\'umushinga wa imitsi.',
+    strength: 'Umushinga w\'Imbaraga',
+    strengthDesc: 'Kuguma imbaraga n\'imiti mu nzira nziza hamwe n\'ibikoresho byerekire fitness.',
+    yoga: 'Yoga n\'Ubuzima',
+    yogaDesc: 'Yigutsa imbukiranya, impungutse n\'ubwenge mu nzira nziza ya yoga. Hose barashobora.',
+    weightLoss: 'Umushinga w\'Imbano',
+    weightLossDesc: 'Umushinga w\'imbano uhariye hamwe n\'abakoze barwaye kugira neza.',
+    aboutGym: 'Kubyigwize Gym ya Fitness Arena',
+    aboutDesc1: 'Inyumba ya fitness nzira ya mbere muri Ruyenzi, Gihara',
+    aboutDesc2: 'Abakoze barwaye bukungu bukungu bwacu',
+    aboutDesc3: 'Ibikoresho byerekire fitness byerekire neza',
+    aboutDesc4: 'Inzira nziza igereranya hose',
+    contactUs: 'Kurikiza',
+    ourPackages: 'Ibibazo Byerekire Ubugize',
+    basic: 'Ibanze',
+    basicPrice: '₹500',
+    basicDesc: 'Kubika mu gym hamwe n\'ibikoresho ibanze',
+    standard: 'Ijambo',
+    standardPrice: '₹1,000',
+    standardDesc: 'Kubika mu gym byongeye + amasomo 4 buri cyumweru',
+    premium: 'Mahaba',
+    premiumPrice: '₹1,500',
+    premiumDesc: 'Amasomo byongeye + mukirizo wa koze',
+    selectPlan: 'Hitamo Igipande',
+    testimonials: 'IBIBAZO BYA BAGIZE',
+    testimonial1: 'Gym ya Fitness Arena yashinje ubuzima bwanjye. Abakoze barwaye bakungu bukungu.',
+    testimonial1Author: 'Grace M.',
+    testimonial1Role: 'Mugize',
+    testimonial2: 'Nzambuye amasomo ya aerobics hano! Abakoze barwaye nibakungu.',
+    testimonial2Author: 'Jean P.',
+    testimonial2Role: 'Mugize',
+    testimonial3: 'Sitwabikapo gym nzira nziza. Inzira nziza n\'abakoze barwaye bakungu.',
+    testimonial3Author: 'Marie K.',
+    testimonial3Role: 'Mugize',
+    newsletter: 'Reba Inyamabwenge Zerekire Fitness',
+    newsletterDesc: 'Jyiyandikira kugira amasomo yerekire fitness no kuberaho neza.',
+    email: 'Injira email yacu',
+    subscribe: 'Jyiyandikira',
+    getInTouch: 'Kurikiza',
+    yourName: 'Amazina Yacu',
+    yourEmail: 'Email Yacu',
+    yourMessage: 'Ubutumwa Bwacu',
+    sendMessage: 'Ohereza Ubutumwa',
+    location: 'Aho Tugira',
+    locationDetail: 'Ruyenzi, Gihara hafi ya Facebook Bar',
+    phone: 'Terefoni',
+    hours: 'Igihe',
+    hoursDetail: 'Kuwa 1 - 7: 6:00 AM - 10:00 PM',
+    followUs: 'Twigerayo',
+  }
+}
 
 export default function Home() {
+  const [language, setLanguage] = useState<Language>('en')
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
 
@@ -16,6 +160,8 @@ export default function Home() {
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
+
+  const t = translations[language]
 
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id)
@@ -33,23 +179,34 @@ export default function Home() {
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center gap-2">
               <div className="w-8 h-8 bg-red-600 rounded-sm flex items-center justify-center">
-                <span className="text-white font-bold text-sm">TBF</span>
+                <span className="text-white font-bold text-xs">FAG</span>
               </div>
-              <span className="text-lg font-bold hidden sm:inline">BODY</span>
+              <span className="text-lg font-bold hidden sm:inline">FITNESS ARENA</span>
             </div>
 
             {/* Desktop Menu */}
             <div className="hidden md:flex items-center gap-8">
-              <button onClick={() => scrollToSection('home')} className="hover:text-red-600 transition">Home</button>
-              <button onClick={() => scrollToSection('about')} className="hover:text-red-600 transition">About us</button>
-              <button onClick={() => scrollToSection('services')} className="hover:text-red-600 transition">Classes</button>
-              <button onClick={() => scrollToSection('pricing')} className="hover:text-red-600 transition">Blog</button>
-              <button onClick={() => scrollToSection('contact')} className="hover:text-red-600 transition">Contact us</button>
-              <button className="p-2 hover:text-red-600 transition">
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                </svg>
-              </button>
+              <button onClick={() => scrollToSection('home')} className="hover:text-red-600 transition">{t.home}</button>
+              <button onClick={() => scrollToSection('about')} className="hover:text-red-600 transition">{t.aboutUs}</button>
+              <button onClick={() => scrollToSection('services')} className="hover:text-red-600 transition">{t.classes}</button>
+              <button onClick={() => scrollToSection('pricing')} className="hover:text-red-600 transition">{t.membership}</button>
+              <button onClick={() => scrollToSection('contact')} className="hover:text-red-600 transition">{t.contact}</button>
+              
+              {/* Language Toggle */}
+              <div className="flex items-center gap-2 border-l border-gray-700 pl-8">
+                <button
+                  onClick={() => setLanguage('en')}
+                  className={`px-3 py-1 rounded transition ${language === 'en' ? 'bg-red-600 text-white' : 'text-gray-400 hover:text-white'}`}
+                >
+                  EN
+                </button>
+                <button
+                  onClick={() => setLanguage('rw')}
+                  className={`px-3 py-1 rounded transition ${language === 'rw' ? 'bg-red-600 text-white' : 'text-gray-400 hover:text-white'}`}
+                >
+                  RW
+                </button>
+              </div>
             </div>
 
             {/* Mobile Menu Button */}
@@ -64,11 +221,25 @@ export default function Home() {
           {/* Mobile Menu */}
           {isMenuOpen && (
             <div className="md:hidden pb-4 space-y-2">
-              <button onClick={() => scrollToSection('home')} className="block w-full text-left py-2 hover:text-red-600">Home</button>
-              <button onClick={() => scrollToSection('about')} className="block w-full text-left py-2 hover:text-red-600">About us</button>
-              <button onClick={() => scrollToSection('services')} className="block w-full text-left py-2 hover:text-red-600">Classes</button>
-              <button onClick={() => scrollToSection('pricing')} className="block w-full text-left py-2 hover:text-red-600">Blog</button>
-              <button onClick={() => scrollToSection('contact')} className="block w-full text-left py-2 hover:text-red-600">Contact us</button>
+              <button onClick={() => scrollToSection('home')} className="block w-full text-left py-2 hover:text-red-600">{t.home}</button>
+              <button onClick={() => scrollToSection('about')} className="block w-full text-left py-2 hover:text-red-600">{t.aboutUs}</button>
+              <button onClick={() => scrollToSection('services')} className="block w-full text-left py-2 hover:text-red-600">{t.classes}</button>
+              <button onClick={() => scrollToSection('pricing')} className="block w-full text-left py-2 hover:text-red-600">{t.membership}</button>
+              <button onClick={() => scrollToSection('contact')} className="block w-full text-left py-2 hover:text-red-600">{t.contact}</button>
+              <div className="flex gap-2 pt-4 border-t border-gray-700">
+                <button
+                  onClick={() => setLanguage('en')}
+                  className={`px-3 py-1 rounded transition ${language === 'en' ? 'bg-red-600 text-white' : 'text-gray-400 hover:text-white'}`}
+                >
+                  EN
+                </button>
+                <button
+                  onClick={() => setLanguage('rw')}
+                  className={`px-3 py-1 rounded transition ${language === 'rw' ? 'bg-red-600 text-white' : 'text-gray-400 hover:text-white'}`}
+                >
+                  RW
+                </button>
+              </div>
             </div>
           )}
         </div>
@@ -80,24 +251,25 @@ export default function Home() {
           <div className="grid md:grid-cols-2 gap-8 items-center">
             <div className="space-y-6">
               <div className="space-y-4">
-                <h1 className="text-5xl md:text-7xl font-black leading-tight">
-                  <span className="block">WORKOUT</span>
-                  <span className="block">WITH ME</span>
+                <h1 className="text-4xl md:text-6xl font-black leading-tight text-balance">
+                  {t.heroTitle}
                 </h1>
                 <p className="text-gray-400 text-lg max-w-md">
-                  A huge collection of health and fitness content, healthy recipes and transformation stories to get you inspired.
+                  {t.heroSubtitle}
                 </p>
               </div>
               <button className="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-8 transition transform hover:scale-105">
-                Join Club Now
+                {t.joinNow}
               </button>
             </div>
             <div className="relative h-96 md:h-[500px]">
               <Image
-                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Our%20Cutting-edge%20Gym%20Website%20Design-mkJQaQP6RuFLWjAkgZMKpUSsUhV9nk.jpeg"
-                alt="Fit person doing push-ups"
+                src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=600&q=80"
+                alt="Women doing aerobics"
                 fill
-                className="object-cover"
+                className="object-cover rounded-lg"
+                loading="eager"
+                priority
               />
             </div>
           </div>
@@ -109,20 +281,20 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
             <div className="text-center">
-              <div className="text-3xl md:text-4xl font-bold text-red-600">500</div>
-              <p className="text-gray-400 text-sm mt-2">Bpm</p>
+              <div className="text-3xl md:text-4xl font-bold text-red-600">{t.membersActive}</div>
+              <p className="text-gray-400 text-sm mt-2">{t.membersLabel}</p>
             </div>
             <div className="text-center">
-              <div className="text-3xl md:text-4xl font-bold text-red-600">300</div>
-              <p className="text-gray-400 text-sm mt-2">Bpm</p>
+              <div className="text-3xl md:text-4xl font-bold text-red-600">{t.classesOffered}</div>
+              <p className="text-gray-400 text-sm mt-2">{t.classesLabel}</p>
             </div>
             <div className="text-center">
-              <div className="text-3xl md:text-4xl font-bold text-red-600">1k</div>
-              <p className="text-gray-400 text-sm mt-2">Km</p>
+              <div className="text-3xl md:text-4xl font-bold text-red-600">{t.yearsExperience}</div>
+              <p className="text-gray-400 text-sm mt-2">{t.yearsLabel}</p>
             </div>
             <div className="text-center">
-              <div className="text-3xl md:text-4xl font-bold text-red-600">10</div>
-              <p className="text-gray-400 text-sm mt-2">Nutrition</p>
+              <div className="text-3xl md:text-4xl font-bold text-red-600">{t.trainers}</div>
+              <p className="text-gray-400 text-sm mt-2">{t.trainersLabel}</p>
             </div>
           </div>
         </div>
@@ -131,43 +303,43 @@ export default function Home() {
       {/* Services Section */}
       <section id="services" className="py-16 md:py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-4xl md:text-5xl font-black mb-16">Explore Our Program</h2>
+          <h2 className="text-4xl md:text-5xl font-black mb-16">{t.exploreClasses}</h2>
           
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {/* Cardio Strength */}
+            {/* Aerobics */}
+            <div className="bg-red-600 p-6 rounded-lg hover:shadow-2xl transition transform hover:-translate-y-2">
+              <div className="w-12 h-12 bg-white rounded-lg flex items-center justify-center mb-4">
+                <span className="text-red-600 font-bold text-xl">🏃‍♀️</span>
+              </div>
+              <h3 className="text-xl font-bold mb-3">{t.aerobics}</h3>
+              <p className="text-red-100 text-sm">{t.aerobicsDesc}</p>
+            </div>
+
+            {/* Strength Training */}
             <div className="bg-red-600 p-6 rounded-lg hover:shadow-2xl transition transform hover:-translate-y-2">
               <div className="w-12 h-12 bg-white rounded-lg flex items-center justify-center mb-4">
                 <span className="text-red-600 font-bold text-xl">💪</span>
               </div>
-              <h3 className="text-xl font-bold mb-3">Cardio Strength</h3>
-              <p className="text-red-100 text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod</p>
+              <h3 className="text-xl font-bold mb-3">{t.strength}</h3>
+              <p className="text-red-100 text-sm">{t.strengthDesc}</p>
             </div>
 
-            {/* Fat Loss */}
+            {/* Yoga */}
+            <div className="bg-red-600 p-6 rounded-lg hover:shadow-2xl transition transform hover:-translate-y-2">
+              <div className="w-12 h-12 bg-white rounded-lg flex items-center justify-center mb-4">
+                <span className="text-red-600 font-bold text-xl">🧘‍♀️</span>
+              </div>
+              <h3 className="text-xl font-bold mb-3">{t.yoga}</h3>
+              <p className="text-red-100 text-sm">{t.yogaDesc}</p>
+            </div>
+
+            {/* Weight Loss */}
             <div className="bg-red-600 p-6 rounded-lg hover:shadow-2xl transition transform hover:-translate-y-2">
               <div className="w-12 h-12 bg-white rounded-lg flex items-center justify-center mb-4">
                 <span className="text-red-600 font-bold text-xl">⚡</span>
               </div>
-              <h3 className="text-xl font-bold mb-3">Fat Loss</h3>
-              <p className="text-red-100 text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod</p>
-            </div>
-
-            {/* Muscle Gain */}
-            <div className="bg-red-600 p-6 rounded-lg hover:shadow-2xl transition transform hover:-translate-y-2">
-              <div className="w-12 h-12 bg-white rounded-lg flex items-center justify-center mb-4">
-                <span className="text-red-600 font-bold text-xl">🏋️</span>
-              </div>
-              <h3 className="text-xl font-bold mb-3">Muscle Gain</h3>
-              <p className="text-red-100 text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod</p>
-            </div>
-
-            {/* Nutrition */}
-            <div className="bg-red-600 p-6 rounded-lg hover:shadow-2xl transition transform hover:-translate-y-2">
-              <div className="w-12 h-12 bg-white rounded-lg flex items-center justify-center mb-4">
-                <span className="text-red-600 font-bold text-xl">🥗</span>
-              </div>
-              <h3 className="text-xl font-bold mb-3">Nutrition</h3>
-              <p className="text-red-100 text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod</p>
+              <h3 className="text-xl font-bold mb-3">{t.weightLoss}</h3>
+              <p className="text-red-100 text-sm">{t.weightLossDesc}</p>
             </div>
           </div>
         </div>
@@ -179,8 +351,8 @@ export default function Home() {
           <div className="grid md:grid-cols-2 gap-8 md:gap-16 items-center">
             <div className="relative h-96 md:h-[500px] order-2 md:order-1">
               <Image
-                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Our%20Cutting-edge%20Gym%20Website%20Design-mkJQaQP6RuFLWjAkgZMKpUSsUhV9nk.jpeg"
-                alt="Professional trainer"
+                src="https://images.unsplash.com/photo-1540224881198-08db4a5f6b10?w=600&q=80"
+                alt="Fitness training"
                 fill
                 className="object-cover rounded-lg"
               />
@@ -188,8 +360,8 @@ export default function Home() {
             
             <div className="space-y-6 order-1 md:order-2">
               <div>
-                <p className="text-red-600 text-sm font-bold mb-2">TESTIMONIALS</p>
-                <h2 className="text-4xl md:text-5xl font-black">How We Can Help You</h2>
+                <p className="text-red-600 text-sm font-bold mb-2">{t.aboutGym}</p>
+                <h2 className="text-4xl md:text-5xl font-black">{t.contactUs}</h2>
               </div>
               
               <div className="space-y-4">
@@ -197,30 +369,30 @@ export default function Home() {
                   <div className="w-6 h-6 rounded-full bg-red-600 flex-shrink-0 flex items-center justify-center">
                     <span className="text-white text-sm">✓</span>
                   </div>
-                  <p className="text-gray-400">We are a fitness facility for people with Parkinson's disease</p>
+                  <p className="text-gray-400">{t.aboutDesc1}</p>
                 </div>
                 <div className="flex gap-3">
                   <div className="w-6 h-6 rounded-full bg-red-600 flex-shrink-0 flex items-center justify-center">
                     <span className="text-white text-sm">✓</span>
                   </div>
-                  <p className="text-gray-400">We offer classes and training with lift, and help</p>
+                  <p className="text-gray-400">{t.aboutDesc2}</p>
                 </div>
                 <div className="flex gap-3">
                   <div className="w-6 h-6 rounded-full bg-red-600 flex-shrink-0 flex items-center justify-center">
                     <span className="text-white text-sm">✓</span>
                   </div>
-                  <p className="text-gray-400">We offer a diverse value package can opt and test</p>
+                  <p className="text-gray-400">{t.aboutDesc3}</p>
                 </div>
                 <div className="flex gap-3">
                   <div className="w-6 h-6 rounded-full bg-red-600 flex-shrink-0 flex items-center justify-center">
                     <span className="text-white text-sm">✓</span>
                   </div>
-                  <p className="text-gray-400">We provide a comfortable environment for anyone</p>
+                  <p className="text-gray-400">{t.aboutDesc4}</p>
                 </div>
               </div>
 
               <button className="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-8 transition transform hover:scale-105 w-fit">
-                Contact us
+                {t.contactUs}
               </button>
             </div>
           </div>
@@ -230,45 +402,45 @@ export default function Home() {
       {/* Pricing Section */}
       <section id="pricing" className="py-16 md:py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-4xl md:text-5xl font-black mb-12 text-center">Our List Packages</h2>
+          <h2 className="text-4xl md:text-5xl font-black mb-12 text-center">{t.ourPackages}</h2>
           
           <div className="grid md:grid-cols-3 gap-8">
-            {/* Fit Package */}
+            {/* Basic Package */}
             <div className="border border-gray-800 rounded-lg p-8 hover:border-red-600 transition">
-              <h3 className="text-sm font-bold text-red-600 mb-2">FIT</h3>
+              <h3 className="text-sm font-bold text-red-600 mb-2">{t.basic}</h3>
               <div className="mb-4">
-                <span className="text-4xl font-black">₹1000</span>
+                <span className="text-4xl font-black">{t.basicPrice}</span>
                 <span className="text-gray-400 text-sm">/month</span>
               </div>
-              <p className="text-gray-400 text-sm mb-6">Basic Fit 22/11/2024</p>
+              <p className="text-gray-400 text-sm mb-6">{t.basicDesc}</p>
               <button className="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-2 transition">
-                Select Plan
+                {t.selectPlan}
               </button>
             </div>
 
-            {/* Fit Plus Package */}
+            {/* Standard Package */}
             <div className="border border-gray-800 rounded-lg p-8 hover:border-red-600 transition">
-              <h3 className="text-sm font-bold text-red-600 mb-2">FIT</h3>
+              <h3 className="text-sm font-bold text-red-600 mb-2">{t.standard}</h3>
               <div className="mb-4">
-                <span className="text-4xl font-black">₹1500</span>
+                <span className="text-4xl font-black">{t.standardPrice}</span>
                 <span className="text-gray-400 text-sm">/month</span>
               </div>
-              <p className="text-gray-400 text-sm mb-6">Pro Fit 22/11/2024</p>
+              <p className="text-gray-400 text-sm mb-6">{t.standardDesc}</p>
               <button className="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-2 transition">
-                Select Plan
+                {t.selectPlan}
               </button>
             </div>
 
-            {/* Elite Package */}
+            {/* Premium Package */}
             <div className="border border-gray-800 rounded-lg p-8 hover:border-red-600 transition">
-              <h3 className="text-sm font-bold text-red-600 mb-2">ELITE</h3>
+              <h3 className="text-sm font-bold text-red-600 mb-2">{t.premium}</h3>
               <div className="mb-4">
-                <span className="text-4xl font-black">₹2000</span>
+                <span className="text-4xl font-black">{t.premiumPrice}</span>
                 <span className="text-gray-400 text-sm">/month</span>
               </div>
-              <p className="text-gray-400 text-sm mb-6">Premium 22/11/2024</p>
+              <p className="text-gray-400 text-sm mb-6">{t.premiumDesc}</p>
               <button className="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-2 transition">
-                Select Plan
+                {t.selectPlan}
               </button>
             </div>
           </div>
@@ -278,7 +450,7 @@ export default function Home() {
       {/* Testimonials Section */}
       <section className="py-16 md:py-24 bg-gray-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-4xl md:text-5xl font-black mb-12 text-center">TESTIMONIALS</h2>
+          <h2 className="text-4xl md:text-5xl font-black mb-12 text-center">{t.testimonials}</h2>
           
           <div className="grid md:grid-cols-3 gap-8 relative">
             {/* Testimonial 1 */}
@@ -289,13 +461,13 @@ export default function Home() {
                 ))}
               </div>
               <p className="text-gray-400 mb-4 text-sm">
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt."
+                "{t.testimonial1}"
               </p>
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 bg-red-600 rounded-full"></div>
                 <div>
-                  <p className="font-bold text-sm">Client Name</p>
-                  <p className="text-gray-500 text-xs">Member</p>
+                  <p className="font-bold text-sm">{t.testimonial1Author}</p>
+                  <p className="text-gray-500 text-xs">{t.testimonial1Role}</p>
                 </div>
               </div>
             </div>
@@ -308,13 +480,13 @@ export default function Home() {
                 ))}
               </div>
               <p className="text-gray-400 mb-4 text-sm">
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt."
+                "{t.testimonial2}"
               </p>
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 bg-red-600 rounded-full"></div>
                 <div>
-                  <p className="font-bold text-sm">Client Name</p>
-                  <p className="text-gray-500 text-xs">Member</p>
+                  <p className="font-bold text-sm">{t.testimonial2Author}</p>
+                  <p className="text-gray-500 text-xs">{t.testimonial2Role}</p>
                 </div>
               </div>
             </div>
@@ -327,13 +499,13 @@ export default function Home() {
                 ))}
               </div>
               <p className="text-gray-400 mb-4 text-sm">
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt."
+                "{t.testimonial3}"
               </p>
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 bg-red-600 rounded-full"></div>
                 <div>
-                  <p className="font-bold text-sm">Client Name</p>
-                  <p className="text-gray-500 text-xs">Member</p>
+                  <p className="font-bold text-sm">{t.testimonial3Author}</p>
+                  <p className="text-gray-500 text-xs">{t.testimonial3Role}</p>
                 </div>
               </div>
             </div>
@@ -348,17 +520,17 @@ export default function Home() {
       {/* Newsletter Section */}
       <section className="py-16 md:py-20 bg-red-600">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl md:text-4xl font-black mb-4">Subscribe on fitness tips</h2>
-          <p className="text-white/90 mb-8">Get daily fitness tips and transformation stories to inspire your journey</p>
+          <h2 className="text-3xl md:text-4xl font-black mb-4">{t.newsletter}</h2>
+          <p className="text-white/90 mb-8">{t.newsletterDesc}</p>
           
           <div className="flex flex-col sm:flex-row gap-3">
             <input
               type="email"
-              placeholder="Enter your email address"
+              placeholder={t.email}
               className="flex-1 px-4 py-3 rounded bg-white text-black placeholder-gray-500 outline-none focus:ring-2 focus:ring-black"
             />
             <button className="bg-black hover:bg-gray-900 text-white font-bold px-6 py-3 rounded transition">
-              Subscribe
+              {t.subscribe}
             </button>
           </div>
         </div>
@@ -370,31 +542,31 @@ export default function Home() {
           <div className="grid md:grid-cols-2 gap-12">
             {/* Contact Form */}
             <div>
-              <h2 className="text-3xl font-black mb-8">Get in Touch</h2>
+              <h2 className="text-3xl font-black mb-8">{t.getInTouch}</h2>
               <form className="space-y-6">
                 <div>
                   <input
                     type="text"
-                    placeholder="Your Name"
+                    placeholder={t.yourName}
                     className="w-full bg-gray-900 border border-gray-800 rounded px-4 py-3 text-white placeholder-gray-500 focus:border-red-600 outline-none transition"
                   />
                 </div>
                 <div>
                   <input
                     type="email"
-                    placeholder="Your Email"
+                    placeholder={t.yourEmail}
                     className="w-full bg-gray-900 border border-gray-800 rounded px-4 py-3 text-white placeholder-gray-500 focus:border-red-600 outline-none transition"
                   />
                 </div>
                 <div>
                   <textarea
-                    placeholder="Your Message"
+                    placeholder={t.yourMessage}
                     rows={5}
                     className="w-full bg-gray-900 border border-gray-800 rounded px-4 py-3 text-white placeholder-gray-500 focus:border-red-600 outline-none transition"
                   ></textarea>
                 </div>
                 <button type="submit" className="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 rounded transition">
-                  Send Message
+                  {t.sendMessage}
                 </button>
               </form>
             </div>
@@ -402,38 +574,32 @@ export default function Home() {
             {/* Contact Info */}
             <div className="space-y-8">
               <div>
-                <h3 className="text-lg font-bold mb-4">The Body Fitness Arena Gym</h3>
-                <p className="text-gray-400">Transform your body and achieve your fitness goals with our expert trainers and state-of-the-art facilities.</p>
-              </div>
-              
-              <div className="space-y-4">
-                <div className="flex gap-4">
-                  <div className="w-5 h-5 text-red-600 flex-shrink-0 mt-1">📍</div>
-                  <div>
-                    <p className="font-bold">Location</p>
-                    <p className="text-gray-400 text-sm">123 Fitness Street, Gym City, GC 12345</p>
-                  </div>
-                </div>
-                <div className="flex gap-4">
-                  <div className="w-5 h-5 text-red-600 flex-shrink-0 mt-1">📞</div>
-                  <div>
-                    <p className="font-bold">Phone</p>
-                    <p className="text-gray-400 text-sm">+1 (555) 123-4567</p>
-                  </div>
-                </div>
-                <div className="flex gap-4">
-                  <div className="w-5 h-5 text-red-600 flex-shrink-0 mt-1">✉️</div>
-                  <div>
-                    <p className="font-bold">Email</p>
-                    <p className="text-gray-400 text-sm">info@bodyfitness.com</p>
-                  </div>
-                </div>
+                <h3 className="text-lg font-bold mb-4">The Fitness Arena Gym</h3>
+                <p className="text-gray-400">Your premier fitness destination dedicated to transforming lives and building a healthier community.</p>
               </div>
 
-              <div className="flex gap-4">
-                <button className="w-10 h-10 rounded-full bg-red-600 hover:bg-red-700 flex items-center justify-center transition">f</button>
-                <button className="w-10 h-10 rounded-full bg-red-600 hover:bg-red-700 flex items-center justify-center transition">𝕏</button>
-                <button className="w-10 h-10 rounded-full bg-red-600 hover:bg-red-700 flex items-center justify-center transition">in</button>
+              <div>
+                <h4 className="font-bold mb-2 text-red-600">{t.location}</h4>
+                <p className="text-gray-400">{t.locationDetail}</p>
+              </div>
+
+              <div>
+                <h4 className="font-bold mb-2 text-red-600">{t.phone}</h4>
+                <p className="text-gray-400">+250 (0) 788 XXX XXX</p>
+              </div>
+
+              <div>
+                <h4 className="font-bold mb-2 text-red-600">{t.hours}</h4>
+                <p className="text-gray-400">{t.hoursDetail}</p>
+              </div>
+
+              <div>
+                <h4 className="font-bold mb-4 text-red-600">{t.followUs}</h4>
+                <div className="flex gap-4">
+                  <a href="#" className="w-10 h-10 bg-red-600 rounded-full flex items-center justify-center hover:bg-red-700 transition">f</a>
+                  <a href="#" className="w-10 h-10 bg-red-600 rounded-full flex items-center justify-center hover:bg-red-700 transition">in</a>
+                  <a href="#" className="w-10 h-10 bg-red-600 rounded-full flex items-center justify-center hover:bg-red-700 transition">IG</a>
+                </div>
               </div>
             </div>
           </div>
@@ -441,41 +607,10 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-gray-900 border-t border-gray-800 py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-4 gap-8 mb-8">
-            <div>
-              <h4 className="font-bold mb-4">The Body Fitness Arena</h4>
-              <p className="text-gray-400 text-sm">Your ultimate fitness destination</p>
-            </div>
-            <div>
-              <h4 className="font-bold mb-4">Quick Links</h4>
-              <ul className="space-y-2 text-sm text-gray-400">
-                <li><button onClick={() => scrollToSection('home')} className="hover:text-red-600 transition">Home</button></li>
-                <li><button onClick={() => scrollToSection('about')} className="hover:text-red-600 transition">About</button></li>
-                <li><button onClick={() => scrollToSection('services')} className="hover:text-red-600 transition">Services</button></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-bold mb-4">Legal</h4>
-              <ul className="space-y-2 text-sm text-gray-400">
-                <li><a href="#" className="hover:text-red-600 transition">Privacy Policy</a></li>
-                <li><a href="#" className="hover:text-red-600 transition">Terms of Service</a></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-bold mb-4">Follow Us</h4>
-              <div className="flex gap-3">
-                <button className="text-gray-400 hover:text-red-600 transition">f</button>
-                <button className="text-gray-400 hover:text-red-600 transition">𝕏</button>
-                <button className="text-gray-400 hover:text-red-600 transition">in</button>
-              </div>
-            </div>
-          </div>
-          
-          <div className="border-t border-gray-800 pt-8 text-center text-gray-400 text-sm">
-            <p>&copy; 2024 The Body Fitness Arena Gym. All rights reserved.</p>
-          </div>
+      <footer className="bg-gray-900 border-t border-gray-800 py-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-gray-400">
+          <p>&copy; 2024 The Fitness Arena Gym. All rights reserved.</p>
+          <p className="text-sm mt-2">Ruyenzi, Gihara | Near Facebook Bar</p>
         </div>
       </footer>
     </div>
