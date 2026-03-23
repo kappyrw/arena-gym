@@ -246,31 +246,33 @@ export default function Home() {
       </nav>
 
       {/* Hero Section */}
-      <section id="home" className="pt-24 pb-12 md:pt-32 md:pb-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-2 gap-8 items-center">
+      <section 
+        id="home" 
+        className="relative pt-24 pb-12 md:pt-32 md:pb-20 min-h-screen flex items-center"
+        style={{
+          backgroundImage: 'url(/hero-bg.jpg)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center right',
+          backgroundAttachment: 'fixed',
+        }}
+      >
+        {/* Dark overlay */}
+        <div className="absolute inset-0 bg-black/60"></div>
+        
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+          <div className="max-w-2xl">
             <div className="space-y-6">
               <div className="space-y-4">
-                <h1 className="text-4xl md:text-6xl font-black leading-tight text-balance">
+                <h1 className="text-5xl md:text-7xl font-black leading-tight text-balance text-white">
                   {t.heroTitle}
                 </h1>
-                <p className="text-gray-400 text-lg max-w-md">
+                <p className="text-gray-200 text-lg md:text-xl max-w-lg">
                   {t.heroSubtitle}
                 </p>
               </div>
-              <button className="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-8 transition transform hover:scale-105">
+              <button className="bg-red-600 hover:bg-red-700 text-white font-bold py-4 px-10 text-lg transition transform hover:scale-105">
                 {t.joinNow}
               </button>
-            </div>
-            <div className="relative h-96 md:h-[500px]">
-              <Image
-                src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=600&q=80"
-                alt="Women doing aerobics"
-                fill
-                className="object-cover rounded-lg"
-                loading="eager"
-                priority
-              />
             </div>
           </div>
         </div>
