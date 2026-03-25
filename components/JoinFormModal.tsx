@@ -15,27 +15,52 @@ const translations = {
     name: 'Full Name',
     email: 'Email Address',
     phone: 'Phone Number',
+    membership: 'Membership Type',
     submit: 'Join via WhatsApp',
     namePlaceholder: 'Enter your full name',
     emailPlaceholder: 'your@email.com',
     phonePlaceholder: '+250 XXX XXX XXX',
+    daily: 'Daily Pass (₨1,000/day)',
+    monthly: 'Monthly Membership (₨20,000/month)',
+    monthlyWithTrainer: 'Monthly + Personal Trainer (₨28,000/month)',
+    pricing: 'Pricing Information',
+    priceDaily: '₨1,000',
+    priceMonthly: '₨20,000',
+    priceTrainer: '₨28,000',
   },
   fr: {
     title: 'Rejoignez The Fitness Arena Gym',
     name: 'Nom Complet',
     email: 'Adresse Email',
     phone: 'Numéro de Téléphone',
+    membership: 'Type d\'Adhésion',
     submit: 'Rejoindre via WhatsApp',
     namePlaceholder: 'Entrez votre nom complet',
     emailPlaceholder: 'votre@email.com',
     phonePlaceholder: '+250 XXX XXX XXX',
+    daily: 'Accès Journalier (₨1,000/jour)',
+    monthly: 'Adhésion Mensuelle (₨20,000/mois)',
+    monthlyWithTrainer: 'Mensuel + Entraîneur Personnel (₨28,000/mois)',
+    pricing: 'Informations de Tarification',
+    priceDaily: '₨1,000',
+    priceMonthly: '₨20,000',
+    priceTrainer: '₨28,000',
   },
 };
 
 export function JoinFormModal({ isOpen, onClose, language }: JoinFormModalProps) {
-  const [formData, setFormData] = useState({ name: '', email: '', phone: '' });
+  const [formData, setFormData] = useState({ name: '', email: '', phone: '', membership: 'monthly' });
   const [loading, setLoading] = useState(false);
   const t = translations[language];
+
+  const getMembershipPrice = (type: string) => {
+    switch(type) {
+      case 'daily': return { label: t.daily, price: t.priceDaily };
+      case 'monthly': return { label: t.monthly, price: t.priceMonthly };
+      case 'trainer': return { label: t.monthlyWithTrainer, price: t.priceTrainer };
+      default: return { label: t.monthly, price: t.priceMonthly };
+    }
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -47,14 +72,22 @@ export function JoinFormModal({ isOpen, onClose, language }: JoinFormModalProps)
     setLoading(true);
 
     if (!formData.name || !formData.email || !formData.phone) {
-      alert('Please fill in all fields');
+      alert(language === 'en' ? 'Please fill in all fields' : 'Veuillez remplir tous les champs');
       setLoading(false);
       return;
     }
 
-    // Create WhatsApp message
+    const membershipInfo = getMembershipPrice(formData.membership);
+    
+    // Create WhatsApp message with pricing info
     const message = encodeURIComponent(
-      `Hello! I would like to join The Fitness Arena Gym.\n\nName: ${formData.name}\nEmail: ${formData.email}\nPhone: ${formData.phone}`
+      `Hello! I would like to join The Fitness Arena Gym.\n\n` +
+      `Name: ${formData.name}\n` +
+      `Email: ${formData.email}\n` +
+      `Phone: ${formData.phone}\n\n` +
+      `Membership Type: ${membershipInfo.label}\n` +
+      `Price: ${membershipInfo.price}\n\n` +
+      `Location: Ruyenzi, Gihara near Facebook Bar`
     );
     
     // Redirect to WhatsApp
@@ -122,6 +155,29 @@ export function JoinFormModal({ isOpen, onClose, language }: JoinFormModalProps)
               placeholder={t.phonePlaceholder}
               className="w-full bg-gray-800 border border-gray-700 rounded px-4 py-2 text-white placeholder-gray-500 focus:outline-none focus:border-red-600"
             />
+          </div>
+
+          <div>
+            <label className="block text-gray-300 text-sm font-medium mb-2">
+              {t.membership}
+            </label>
+            <select
+              name="membership"
+              value={formData.membership}
+              onChange={handleChange}
+              className="w-full bg-gray-800 border border-gray-700 rounded px-4 py-2 text-white focus:outline-none focus:border-red-600"
+            >
+              <option value="daily">{t.daily}</option>
+              <option value="monthly">{t.monthly}</option>
+              <option value="trainer">{t.monthlyWithTrainer}</option>
+            </select>
+          </div>
+
+          <div className="bg-gray-800 border border-gray-700 rounded px-4 py-3">
+            <p className="text-gray-300 text-sm">{t.pricing}</p>
+            <p className="text-red-500 font-bold text-lg mt-2">
+              {getMembershipPrice(formData.membership).price}
+            </p>
           </div>
 
           <button

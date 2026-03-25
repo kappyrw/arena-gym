@@ -141,7 +141,7 @@ export default function Home() {
         
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-20">
           <div className="max-w-2xl">
-            <TypingAnimation text="THE FITNESS ARENA GYM" />
+            <TypingAnimation text="THE FITNESS ARENA GYM" language={language} />
             <p className="text-gray-200 text-lg md:text-xl max-w-lg mt-6 mb-8">
               {t.heroSubtitle}
             </p>

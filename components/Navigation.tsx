@@ -11,6 +11,7 @@ const translations = {
     about: 'About Us',
     classes: 'Classes',
     membership: 'Membership',
+    gallery: 'Gallery',
     contact: 'Contact',
   },
   fr: {
@@ -18,6 +19,7 @@ const translations = {
     about: 'À Propos',
     classes: 'Cours',
     membership: 'Adhésion',
+    gallery: 'Galerie',
     contact: 'Contact',
   },
 };
@@ -32,6 +34,7 @@ export function Navigation() {
     { label: t.about, href: '/about' },
     { label: t.classes, href: '/classes' },
     { label: t.membership, href: '/membership' },
+    { label: t.gallery, href: '/gallery' },
     { label: t.contact, href: '/contact' },
   ];
 
