@@ -217,7 +217,7 @@ export default function Home() {
             </div>
             <div className="relative h-96 md:h-[500px]">
               <Image
-                src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=600&q=80"
+            src="/ae.png"
                 alt="Aerobics class with women"
                 fill
                 className="object-cover rounded-lg"
