@@ -37,7 +37,7 @@ export function TypingAnimation({ text, language = 'en' }: { text: string; langu
 
   return (
     <div className="space-y-2">
-      <div className="text-2xl md:text-4xl font-bold text-red-600 min-h-[40px] md:min-h-[50px]">
+      <div className="text-5xl md:text-4xl font-bold text-red-600 min-h-[40px] md:min-h-[50px]">
         {displayedWelcome}
         {stage === 'welcome' && displayedWelcome.length === welcomeText.length && <span className="animate-pulse">|</span>}
       </div>

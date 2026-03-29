@@ -3,28 +3,21 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import { useLanguage } from '@/providers/LanguageProvider';
-import { Upload, X, Plus } from 'lucide-react';
+import { Footer } from '@/components/Footer';
+import { FolderOpen } from 'lucide-react';
 
 const translations = {
   en: {
     title: 'Gym Gallery',
     subtitle: 'Showcase of our state-of-the-art facilities and members in action',
-    uploadImage: 'Upload Image',
-    dragDrop: 'Drag and drop your images here',
-    selectFiles: 'Select Files',
-    noImages: 'No images yet. Be the first to upload a photo of our gym!',
-    uploadSuccess: 'Image uploaded successfully!',
-    error: 'Error uploading image. Please try again.',
+    viewMore: 'View More Photos on Google Drive',
+    viewMoreDesc: 'Click below to see our complete photo collection on Google Drive',
   },
   fr: {
     title: 'Galerie du Gym',
     subtitle: 'Showcase de nos installations modernes et des membres en action',
-    uploadImage: 'Télécharger une Image',
-    dragDrop: 'Glissez et déposez vos images ici',
-    selectFiles: 'Sélectionner les Fichiers',
-    noImages: 'Aucune image pour le moment. Soyez le premier à télécharger une photo de notre gym!',
-    uploadSuccess: 'Image téléchargée avec succès!',
-    error: 'Erreur lors du téléchargement. Veuillez réessayer.',
+    viewMore: 'Voir Plus de Photos sur Google Drive',
+    viewMoreDesc: 'Cliquez ci-dessous pour voir notre collection complète de photos sur Google Drive',
   },
 };
 
@@ -38,7 +31,11 @@ interface GalleryImage {
 export default function Gallery() {
   const { language } = useLanguage();
   const t = translations[language];
-  const [images, setImages] = useState<GalleryImage[]>([
+
+  // Replace this with your Google Drive folder share link
+  const GOOGLE_DRIVE_LINK = 'https://drive.google.com/drive/folders/YOUR_FOLDER_ID?usp=sharing';
+
+  const [images] = useState<GalleryImage[]>([
     {
       id: '1',
       url: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=400&q=80',
@@ -94,158 +91,55 @@ export default function Gallery() {
       date: '2024-02-28',
     },
   ]);
-  const [loading, setLoading] = useState(false);
-  const [dragActive, setDragActive] = useState(false);
-  const [uploadMessage, setUploadMessage] = useState('');
-
-  const handleDrag = (e: React.DragEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    if (e.type === 'dragenter' || e.type === 'dragover') {
-      setDragActive(true);
-    } else if (e.type === 'dragleave') {
-      setDragActive(false);
-    }
-  };
-
-  const handleDrop = (e: React.DragEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setDragActive(false);
-
-    const files = e.dataTransfer.files;
-    if (files && files[0]) {
-      handleFiles(files);
-    }
-  };
-
-  const handleFiles = (files: FileList) => {
-    setLoading(true);
-    Array.from(files).forEach((file) => {
-      if (file.type.startsWith('image/')) {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          const newImage: GalleryImage = {
-            id: Date.now().toString(),
-            url: e.target?.result as string,
-            title: file.name.split('.')[0],
-            date: new Date().toISOString().split('T')[0],
-          };
-          setImages((prev) => [newImage, ...prev]);
-          setUploadMessage(t.uploadSuccess);
-          setTimeout(() => setUploadMessage(''), 3000);
-        };
-        reader.onerror = () => {
-          setUploadMessage(t.error);
-          setTimeout(() => setUploadMessage(''), 3000);
-        };
-        reader.readAsDataURL(file);
-      }
-    });
-    setLoading(false);
-  };
-
-  const removeImage = (id: string) => {
-    setImages((prev) => prev.filter((img) => img.id !== id));
-  };
-
-  const handleFileInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      handleFiles(e.target.files);
-    }
-  };
 
   return (
     <div className="min-h-screen bg-black text-white pt-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Header */}
-        <div className="mb-12">
+        <div className="mb-12 text-center">
           <h1 className="text-4xl md:text-5xl font-black mb-4">{t.title}</h1>
-          <p className="text-gray-400 text-lg">{t.subtitle}</p>
-        </div>
-
-        {/* Upload Section */}
-        <div className="mb-12">
-          <div
-            onDragEnter={handleDrag}
-            onDragLeave={handleDrag}
-            onDragOver={handleDrag}
-            onDrop={handleDrop}
-            className={`border-2 border-dashed rounded-lg p-8 text-center transition ${
-              dragActive
-                ? 'border-red-600 bg-red-600/10'
-                : 'border-gray-700 hover:border-red-600'
-            }`}
-          >
-            <Upload className="mx-auto mb-4 text-gray-400" size={48} />
-            <p className="text-gray-300 mb-4">{t.dragDrop}</p>
-            <label className="inline-block">
-              <input
-                type="file"
-                multiple
-                accept="image/*"
-                onChange={handleFileInput}
-                className="hidden"
-                disabled={loading}
-              />
-              <span className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-6 rounded cursor-pointer transition inline-flex items-center gap-2">
-                <Plus size={20} />
-                {t.selectFiles}
-              </span>
-            </label>
-          </div>
-
-          {uploadMessage && (
-            <div className={`mt-4 p-4 rounded text-center ${
-              uploadMessage.includes('success')
-                ? 'bg-green-600/20 text-green-400'
-                : 'bg-red-600/20 text-red-400'
-            }`}>
-              {uploadMessage}
-            </div>
-          )}
+          <p className="text-gray-400 text-lg mb-8">{t.subtitle}</p>
         </div>
 
         {/* Gallery Grid */}
-        {images.length === 0 ? (
-          <div className="text-center py-12">
-            <p className="text-gray-400 text-lg">{t.noImages}</p>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {images.map((image) => (
-              <div
-                key={image.id}
-                className="relative group overflow-hidden rounded-lg bg-gray-900 hover:shadow-lg hover:shadow-red-600/50 transition"
-              >
-                <div className="relative w-full h-64">
-                  <Image
-                    src={image.url}
-                    alt={image.title}
-                    fill
-                    className="object-cover group-hover:scale-110 transition duration-300"
-                  />
-                </div>
-
-                {/* Overlay */}
-                <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition flex flex-col justify-between p-4">
-                  <button
-                    onClick={() => removeImage(image.id)}
-                    className="self-end bg-red-600 hover:bg-red-700 rounded-full p-2 transition"
-                    aria-label="Remove image"
-                  >
-                    <X size={20} />
-                  </button>
-                  <div>
-                    <p className="text-white font-bold">{image.title}</p>
-                    <p className="text-gray-300 text-sm">{image.date}</p>
-                  </div>
-                </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
+          {images.map((image) => (
+            <div key={image.id} className="group relative overflow-hidden rounded-lg">
+              <div className="relative h-64 w-full bg-gray-800">
+                <Image
+                  src={image.url}
+                  alt={image.title}
+                  fill
+                  className="object-cover group-hover:scale-110 transition duration-300"
+                />
               </div>
-            ))}
-          </div>
-        )}
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-4 translate-y-full group-hover:translate-y-0 transition duration-300">
+                <p className="text-white font-semibold">{image.title}</p>
+                <p className="text-gray-300 text-sm">{image.date}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Google Drive Section */}
+        <div className="bg-gray-900 border-2 border-red-600 rounded-lg p-8 md:p-12 text-center">
+          <FolderOpen size={48} className="mx-auto mb-4 text-red-600" />
+          <h2 className="text-3xl font-bold mb-4">{t.viewMore}</h2>
+          <p className="text-gray-400 mb-8 max-w-2xl mx-auto">{t.viewMoreDesc}</p>
+          <a
+            href={GOOGLE_DRIVE_LINK}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white font-bold py-4 px-8 rounded-lg transition transform hover:scale-105"
+          >
+            <FolderOpen size={24} />
+            {t.viewMore}
+          </a>
+        </div>
       </div>
+
+      {/* Footer */}
+      <Footer />
     </div>
   );
 }

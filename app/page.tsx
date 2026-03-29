@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Image from 'next/image';
 import { TypingAnimation } from '@/components/TypingAnimation';
 import { JoinFormModal } from '@/components/JoinFormModal';
+import { SelectPlanModal } from '@/components/SelectPlanModal';
 import { useLanguage } from '@/providers/LanguageProvider';
 import { Star, MapPin, Clock, Phone } from 'lucide-react';
 
@@ -37,14 +38,17 @@ const translations = {
     pricing: {
       title: 'Our Membership Plans',
       fit: 'Fit Plan',
-      fitPrice: '₨5,000',
-      fitFeatures: 'Gym access, Basic classes',
+      fitPrice: '₨1,000',
+      fitPriceLabel: '/day',
+      fitFeatures: 'Daily gym access with basic equipment',
       fitPlus: 'Fit Plus',
-      fitPlusPrice: '₨7,500',
-      fitPlusFeatures: 'All Fit features + Personal trainer consultation',
+      fitPlusPrice: '₨20,000',
+      fitPlusPriceLabel: '/month',
+      fitPlusFeatures: 'Unlimited access + All classes + Personal trainer',
       elite: 'Elite',
-      elitePrice: '₨12,000',
-      eliteFeatures: 'All features + Priority support + Nutrition plan',
+      elitePrice: '₨28,000',
+      elitePriceLabel: '/month',
+      eliteFeatures: 'Premium membership + Nutrition plan + Priority support',
       selectPlan: 'Select Plan',
     },
     testimonials: {
@@ -92,14 +96,17 @@ const translations = {
     pricing: {
       title: 'Nos Plans d\'Adhésion',
       fit: 'Plan Fit',
-      fitPrice: '₨5,000',
-      fitFeatures: 'Accès au gym, cours de base',
+      fitPrice: '₨1,000',
+      fitPriceLabel: '/jour',
+      fitFeatures: 'Accès quotidien au gym avec équipement de base',
       fitPlus: 'Fit Plus',
-      fitPlusPrice: '₨7,500',
-      fitPlusFeatures: 'Toutes les fonctionnalités Fit + Consultation d\'entraîneur personnel',
+      fitPlusPrice: '₨20,000',
+      fitPlusPriceLabel: '/mois',
+      fitPlusFeatures: 'Accès illimité + Tous les cours + Entraîneur personnel',
       elite: 'Elite',
-      elitePrice: '₨12,000',
-      eliteFeatures: 'Toutes les fonctionnalités + Support prioritaire + Plan nutritionnel',
+      elitePrice: '₨28,000',
+      elitePriceLabel: '/mois',
+      eliteFeatures: 'Adhésion premium + Plan nutritionnel + Support prioritaire',
       selectPlan: 'Choisir le Plan',
     },
     testimonials: {
@@ -122,6 +129,7 @@ const translations = {
 
 export default function Home() {
   const [joinModalOpen, setJoinModalOpen] = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState<{ name: string; price: string; priceLabel: string; features: string } | null>(null);
   const { language } = useLanguage();
   const t = translations[language];
 
@@ -217,7 +225,7 @@ export default function Home() {
             </div>
             <div className="relative h-96 md:h-[500px]">
               <Image
-            src="/ae.png"
+                src="/ae.png"
                 alt="Aerobics class with women"
                 fill
                 className="object-cover rounded-lg"
@@ -233,9 +241,9 @@ export default function Home() {
           <h2 className="text-4xl md:text-5xl font-bold text-center mb-16">{t.pricing.title}</h2>
           <div className="grid md:grid-cols-3 gap-8">
             {[
-              { name: t.pricing.fit, price: t.pricing.fitPrice, features: t.pricing.fitFeatures },
-              { name: t.pricing.fitPlus, price: t.pricing.fitPlusPrice, features: t.pricing.fitPlusFeatures, highlighted: true },
-              { name: t.pricing.elite, price: t.pricing.elitePrice, features: t.pricing.eliteFeatures },
+              { name: t.pricing.fit, price: t.pricing.fitPrice, priceLabel: t.pricing.fitPriceLabel, features: t.pricing.fitFeatures },
+              { name: t.pricing.fitPlus, price: t.pricing.fitPlusPrice, priceLabel: t.pricing.fitPlusPriceLabel, features: t.pricing.fitPlusFeatures, highlighted: true },
+              { name: t.pricing.elite, price: t.pricing.elitePrice, priceLabel: t.pricing.elitePriceLabel, features: t.pricing.eliteFeatures },
             ].map((plan, i) => (
               <div
                 key={i}
@@ -251,9 +259,15 @@ export default function Home() {
                   </div>
                 )}
                 <h3 className="text-2xl font-bold mb-2">{plan.name}</h3>
-                <p className="text-4xl font-bold text-red-600 mb-4">{plan.price}</p>
+                <p className="text-4xl font-bold text-red-600 mb-1">
+                  {plan.price}
+                  <span className="text-sm text-gray-400 ml-1">{plan.priceLabel}</span>
+                </p>
                 <p className="text-gray-400 mb-6">{plan.features}</p>
-                <button className="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 rounded transition">
+                <button 
+                  onClick={() => setSelectedPlan({ name: plan.name, price: plan.price, priceLabel: plan.priceLabel, features: plan.features })}
+                  className="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 rounded transition"
+                >
                   {t.pricing.selectPlan}
                 </button>
               </div>
@@ -325,6 +339,19 @@ export default function Home() {
 
       {/* Join Modal */}
       <JoinFormModal isOpen={joinModalOpen} onClose={() => setJoinModalOpen(false)} language={language} />
+
+      {/* Select Plan Modal */}
+      {selectedPlan && (
+        <SelectPlanModal
+          isOpen={!!selectedPlan}
+          onClose={() => setSelectedPlan(null)}
+          language={language}
+          planName={selectedPlan.name}
+          planPrice={selectedPlan.price}
+          planPriceLabel={selectedPlan.priceLabel}
+          planFeatures={selectedPlan.features}
+        />
+      )}
     </div>
   );
 }

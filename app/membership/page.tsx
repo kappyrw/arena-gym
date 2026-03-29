@@ -1,6 +1,7 @@
 'use client';
 
 import { useLanguage } from '@/providers/LanguageProvider';
+import { Footer } from '@/components/Footer';
 import { CheckCircle, X } from 'lucide-react';
 
 const translations = {
@@ -20,18 +21,18 @@ const translations = {
     prioritySupport: 'Priority Support',
     fitPlan: {
       name: 'Fit Plan',
-      price: '₨5,000',
-      desc: 'Perfect for beginners',
+      price: '₨1,000',
+      desc: 'Daily Access',
     },
     fitPlus: {
       name: 'Fit Plus',
-      price: '₨7,500',
+      price: '₨20,000',
       desc: 'Most Popular',
       highlight: true,
     },
     elite: {
       name: 'Elite',
-      price: '₨12,000',
+      price: '₨28,000',
       desc: 'Complete Package',
     },
   },
@@ -51,18 +52,18 @@ const translations = {
     prioritySupport: 'Support Prioritaire',
     fitPlan: {
       name: 'Plan Fit',
-      price: '₨5,000',
-      desc: 'Parfait pour les débutants',
+      price: '₨1,000',
+      desc: 'Accès Quotidien',
     },
     fitPlus: {
       name: 'Fit Plus',
-      price: '₨7,500',
+      price: '₨20,000',
       desc: 'Le Plus Populaire',
       highlight: true,
     },
     elite: {
       name: 'Elite',
-      price: '₨12,000',
+      price: '₨28,000',
       desc: 'Package Complet',
     },
   },
@@ -151,7 +152,11 @@ export default function Membership() {
 
                 <div className="mb-8">
                   <span className="text-5xl font-bold text-red-600">{plan.price}</span>
-                  <span className="text-gray-400">{t.month}</span>
+                  <span className="text-gray-400">
+                    {plan.name === t.fitPlan.name ? '/day' : (plan.name === t.fitPlus.name || plan.name === t.elite.name ? '/month' : '')}
+                    {language === 'fr' && plan.name === t.fitPlan.name && '/jour'}
+                    {language === 'fr' && (plan.name === t.fitPlus.name || plan.name === t.elite.name) && '/mois'}
+                  </span>
                 </div>
 
                 <div className="space-y-4 mb-8 pb-8 border-b border-gray-700">
@@ -247,6 +252,9 @@ export default function Membership() {
           </button>
         </div>
       </section>
+
+      {/* Footer */}
+      <Footer />
     </div>
   );
 }

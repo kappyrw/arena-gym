@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import { useLanguage } from '@/providers/LanguageProvider';
+import { Footer } from '@/components/Footer';
 import { CheckCircle } from 'lucide-react';
 
 const translations = {
@@ -18,6 +19,12 @@ const translations = {
     value4: 'Innovation - We continually update our programs and equipment',
     team: 'Our Expert Team',
     teamDesc: 'Our certified trainers and fitness professionals bring years of experience and passion to help you achieve your goals.',
+    coach1: 'Coach Alex',
+    coach1Role: 'Strength Training Specialist',
+    coach2: 'Coach Maria',
+    coach2Role: 'Aerobics & Cardio Expert',
+    coach3: 'Coach James',
+    coach3Role: 'Personal Training Coach',
     facilities: 'World-Class Facilities',
     facilitiesDesc: 'We offer modern equipment, spacious workout areas, and comfortable amenities to enhance your fitness experience.',
   },
@@ -34,6 +41,12 @@ const translations = {
     value4: 'Innovation - Nous mettons continuellement à jour nos programmes et équipements',
     team: 'Notre Équipe Expert',
     teamDesc: 'Nos entraîneurs certifiés et professionnels du fitness apportent des années d\'expérience et de passion pour vous aider à atteindre vos objectifs.',
+    coach1: 'Coach Alex',
+    coach1Role: 'Spécialiste du Renforcement Musculaire',
+    coach2: 'Coach Maria',
+    coach2Role: 'Expert en Aérobic et Cardio',
+    coach3: 'Coach James',
+    coach3Role: 'Coach d\'Entraînement Personnel',
     facilities: 'Installations de Classe Mondiale',
     facilitiesDesc: 'Nous proposons des équipements modernes, des espaces d\'entraînement spacieux et des équipements confortables pour améliorer votre expérience de fitness.',
   },
@@ -107,16 +120,37 @@ export default function About() {
       <section className="bg-gray-900 py-16 md:py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl md:text-4xl font-bold mb-6">{t.team}</h2>
-          <p className="text-gray-300 text-lg mb-8">{t.teamDesc}</p>
+          <p className="text-gray-300 text-lg mb-12">{t.teamDesc}</p>
           <div className="grid md:grid-cols-3 gap-8">
-            {[1, 2, 3].map((i) => (
-              <div key={i} className="bg-black rounded-lg overflow-hidden border border-gray-800">
-                <div className="h-48 bg-gray-800 flex items-center justify-center">
-                  <span className="text-gray-600">Trainer {i}</span>
+            {[
+              {
+                name: t.coach1,
+                role: t.coach1Role,
+                image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80',
+              },
+              {
+                name: t.coach2,
+                role: t.coach2Role,
+                image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&q=80',
+              },
+              {
+                name: t.coach3,
+                role: t.coach3Role,
+                image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&q=80',
+              },
+            ].map((coach, i) => (
+              <div key={i} className="bg-black rounded-lg overflow-hidden border border-gray-800 hover:border-red-600 transition">
+                <div className="relative h-64 w-full">
+                  <Image
+                    src={coach.image}
+                    alt={coach.name}
+                    fill
+                    className="object-cover"
+                  />
                 </div>
-                <div className="p-4">
-                  <h3 className="font-bold text-lg mb-1">Coach</h3>
-                  <p className="text-gray-400 text-sm">Certified Fitness Professional</p>
+                <div className="p-6">
+                  <h3 className="font-bold text-lg mb-1">{coach.name}</h3>
+                  <p className="text-red-600 text-sm font-semibold">{coach.role}</p>
                 </div>
               </div>
             ))}
@@ -144,6 +178,9 @@ export default function About() {
           </div>
         </div>
       </section>
+
+      {/* Footer */}
+      <Footer />
     </div>
   );
 }

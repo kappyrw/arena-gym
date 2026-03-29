@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useLanguage } from '@/providers/LanguageProvider';
+import { Footer } from '@/components/Footer';
 import { MapPin, Phone, Clock, Mail } from 'lucide-react';
 
 const translations = {
@@ -225,6 +226,9 @@ export default function Contact() {
           </div>
         </div>
       </section>
+
+      {/* Footer */}
+      <Footer />
     </div>
   );
 }
