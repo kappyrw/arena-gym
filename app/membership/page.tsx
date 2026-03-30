@@ -1,5 +1,7 @@
 'use client';
 
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { useLanguage } from '@/providers/LanguageProvider';
 import { Footer } from '@/components/Footer';
 import { CheckCircle, X } from 'lucide-react';
@@ -71,7 +73,14 @@ const translations = {
 
 export default function Membership() {
   const { language } = useLanguage();
+  const router = useRouter();
   const t = translations[language];
+  const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
+
+  const handleSelectPlan = (planName: string) => {
+    setSelectedPlan(planName);
+    router.push(`/enrollment?plan=${encodeURIComponent(planName)}`);
+  };
 
   const plans = [
     {
@@ -175,6 +184,7 @@ export default function Membership() {
                 </div>
 
                 <button
+                  onClick={() => handleSelectPlan(plan.name)}
                   className={`w-full font-bold py-3 rounded-lg transition ${
                     plan.highlight
                       ? 'bg-red-600 hover:bg-red-700 text-white'

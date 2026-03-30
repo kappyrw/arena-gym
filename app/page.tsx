@@ -139,9 +139,9 @@ export default function Home() {
       <section 
         className="relative min-h-screen flex items-center pt-20"
         style={{
-          backgroundImage: 'url(/hero-bg.jpg)',
+          backgroundImage: 'url(/hero1-bg.png)',
           backgroundSize: 'cover',
-          backgroundPosition: 'center right',
+          backgroundPosition: 'center center',
           backgroundAttachment: 'fixed',
         }}
       >

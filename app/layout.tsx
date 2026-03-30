@@ -9,9 +9,9 @@ const _geist = Geist({ subsets: ["latin"] });
 const _geistMono = Geist_Mono({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: 'The Body Fitness Arena Gym',
+  title: 'The  Fitness Arena Gym',
   description: 'Transform your body and mind at The Body Fitness Arena Gym. Premium fitness training, expert guidance, and state-of-the-art equipment.',
-  generator: 'v0.app',
+  generator: 'kappy',
   icons: {
     icon: [
       {
