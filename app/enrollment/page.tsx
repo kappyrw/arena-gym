@@ -5,6 +5,7 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import { useLanguage } from '@/providers/LanguageProvider';
 import { Footer } from '@/components/Footer';
 import { ArrowLeft } from 'lucide-react';
+export const dynamic = "force-dynamic";
 
 const translations = {
   en: {
