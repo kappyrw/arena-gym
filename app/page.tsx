@@ -53,7 +53,7 @@ const translations = {
     },
     testimonials: {
       title: 'Member Testimonials',
-      grace: 'Grace',
+      grace: 'Uwimana',
       graceTesti: 'The Fitness Arena has completely transformed my fitness journey. Amazing trainers!',
       jean: 'Jean',
       jeanTesti: 'Best gym in Gihara! Professional staff and fantastic equipment.',
@@ -111,7 +111,7 @@ const translations = {
     },
     testimonials: {
       title: 'Témoignages des Membres',
-      grace: 'Grace',
+      grace: 'Uwimana',
       graceTesti: 'The Fitness Arena a complètement transformé mon parcours fitness. Entraîneurs incroyables!',
       jean: 'Jean',
       jeanTesti: 'Meilleur gym à Gihara! Personnel professionnel et équipements fantastiques.',
