@@ -89,14 +89,14 @@ export default function About() {
               <h2 className="text-3xl md:text-4xl font-bold mb-6">{t.mission}</h2>
               <p className="text-gray-300 text-lg">{t.missionDesc}</p>
             </div>
-            <div className="relative h-80 md:h-96 rounded-lg overflow-hidden">
+            {/* <div className="relative h-80 md:h-96 rounded-lg overflow-hidden">
               <Image
                 src="https://images.unsplash.com/photo-1540224881198-08db4a5f6b10?w=500&q=80"
                 alt="Training"
                 fill
                 className="object-cover"
               />
-            </div>
+            </div> */}
           </div>
         </div>
       </section>
