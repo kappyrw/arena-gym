@@ -5,13 +5,16 @@ import Image from 'next/image';
 import { useLanguage } from '@/providers/LanguageProvider';
 import { Footer } from '@/components/Footer';
 import { FolderOpen, Play } from 'lucide-react';
+import { Clock, Users, Zap, Facebook, Instagram, Twitter, Youtube, Linkedin } from 'lucide-react';
 
 const translations = {
   en: {
     title: 'Gym Gallery',
     subtitle: 'Showcase of our state-of-the-art facilities and members in action',
-    viewMore: 'View More Photos on Google Drive',
-    viewMoreDesc: 'Click below to see our complete photo collection on Google Drive',
+    viewMorePhotos: 'More Pictures',
+    viewMoreVideos: 'More Videos',
+    viewMorePhotosDesc: 'Click to see our complete photo collection on Google Drive',
+    viewMoreVideosDesc: 'Click to see our complete video collection on Google Drive',
     allMedia: 'All Media',
     photos: 'Photos',
     videos: 'Videos',
@@ -19,8 +22,10 @@ const translations = {
   fr: {
     title: 'Galerie du Gym',
     subtitle: 'Showcase de nos installations modernes et des membres en action',
-    viewMore: 'Voir Plus de Photos sur Google Drive',
-    viewMoreDesc: 'Cliquez ci-dessous pour voir notre collection complète de photos sur Google Drive',
+    viewMorePhotos: 'Plus de Photos',
+    viewMoreVideos: 'Plus de Vidéos',
+    viewMorePhotosDesc: 'Cliquez pour voir notre collection complète de photos sur Google Drive',
+    viewMoreVideosDesc: 'Cliquez pour voir notre collection complète de vidéos sur Google Drive',
     allMedia: 'Tous les Médias',
     photos: 'Photos',
     videos: 'Vidéos',
@@ -41,8 +46,9 @@ export default function Gallery() {
   const t = translations[language];
   const [filter, setFilter] = useState<'all' | 'photos' | 'videos'>('all');
 
-  // Replace this with your Google Drive folder share link
-  const GOOGLE_DRIVE_LINK = 'https://drive.google.com/drive/folders/YOUR_FOLDER_ID?usp=sharing';
+  // Replace these with your Google Drive folder share links
+  const GOOGLE_DRIVE_PHOTOS_LINK = 'https://drive.google.com/drive/folders/19bFYTPWGMS82dx9MwEIAIq-ExvS8Eidf?usp=sharing';
+  const GOOGLE_DRIVE_VIDEOS_LINK = 'https://drive.google.com/drive/folders/16XQUhMEKCfvYsCBBrnMnCVuwI9YcHSyQ?usp=drive_link';
 
   const [media] = useState<GalleryMedia[]>([
     {
@@ -219,24 +225,73 @@ export default function Gallery() {
         </div>
 
         {/* Google Drive Section */}
-        <div className="bg-gray-900 border-2 border-red-600 rounded-lg p-8 md:p-12 text-center">
-          <FolderOpen size={48} className="mx-auto mb-4 text-red-600" />
-          <h2 className="text-3xl font-bold mb-4">{t.viewMore}</h2>
-          <p className="text-gray-400 mb-8 max-w-2xl mx-auto">{t.viewMoreDesc}</p>
-          <a
-            href={GOOGLE_DRIVE_LINK}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white font-bold py-4 px-8 rounded-lg transition transform hover:scale-105"
-          >
-            <FolderOpen size={24} />
-            {t.viewMore}
-          </a>
+        <div className="bg-gray-900 border-2 border-red-600 rounded-lg p-8 md:p-12">
+          <h2 className="text-3xl font-bold mb-8 text-center">Browse More Content</h2>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {/* Photos Section */}
+            <div className="text-center">
+              <FolderOpen size={48} className="mx-auto mb-4 text-red-600" />
+              <h3 className="text-2xl font-bold mb-4">{t.viewMorePhotos}</h3>
+              <p className="text-gray-400 mb-6">{t.viewMorePhotosDesc}</p>
+              <a
+                href={GOOGLE_DRIVE_PHOTOS_LINK}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-lg transition transform hover:scale-105"
+              >
+                <FolderOpen size={24} />
+                {t.viewMorePhotos}
+              </a>
+            </div>
+
+            {/* Videos Section */}
+            <div className="text-center">
+              <Play size={48} className="mx-auto mb-4 text-red-600" />
+              <h3 className="text-2xl font-bold mb-4">{t.viewMoreVideos}</h3>
+              <p className="text-gray-400 mb-6">{t.viewMoreVideosDesc}</p>
+              <a
+                href={GOOGLE_DRIVE_VIDEOS_LINK}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-lg transition transform hover:scale-105"
+              >
+                <Play size={24} />
+                {t.viewMoreVideos}
+              </a>
+            </div>
+          </div>
         </div>
       </div>
 
       {/* Footer */}
-      <Footer />
+       <footer className="bg-black border-t border-gray-800 py-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Social Media Links */}
+          <div className="flex justify-center gap-6 mb-8">
+            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-red-600 transition transform hover:scale-110" aria-label="Facebook">
+              <Facebook size={24} />
+            </a>
+            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-red-600 transition transform hover:scale-110" aria-label="Instagram">
+              <Instagram size={24} />
+            </a>
+            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-red-600 transition transform hover:scale-110" aria-label="Twitter">
+              <Twitter size={24} />
+            </a>
+            <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-red-600 transition transform hover:scale-110" aria-label="YouTube">
+              <Youtube size={24} />
+            </a>
+            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-red-600 transition transform hover:scale-110" aria-label="LinkedIn">
+              <Linkedin size={24} />
+            </a>
+          </div>
+
+          {/* Copyright */}
+          <div className="text-center text-gray-400 border-t border-gray-800 pt-8">
+            <p>&copy; 2024 The Fitness Arena Gym. {language === 'en' ? 'All rights reserved.' : 'Tous droits réservés.'}</p>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }

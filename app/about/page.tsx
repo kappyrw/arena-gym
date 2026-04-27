@@ -2,8 +2,9 @@
 
 import Image from 'next/image';
 import { useLanguage } from '@/providers/LanguageProvider';
-import { Footer } from '@/components/Footer';
+
 import { CheckCircle } from 'lucide-react';
+import { Star, MapPin, Clock, Phone, Facebook, Instagram, Twitter, Linkedin, Youtube } from 'lucide-react';
 
 const translations = {
   en: {
@@ -178,9 +179,38 @@ export default function About() {
           </div>
         </div>
       </section>
+      
+ {/* Footer */}
+      <footer className="bg-black border-t border-gray-800 py-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Social Media Links */}
+          <div className="flex justify-center gap-6 mb-8">
+            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-red-600 transition transform hover:scale-110" aria-label="Facebook">
+              <Facebook size={24} />
+            </a>
+            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-red-600 transition transform hover:scale-110" aria-label="Instagram">
+              <Instagram size={24} />
+            </a>
+            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-red-600 transition transform hover:scale-110" aria-label="Twitter">
+              <Twitter size={24} />
+            </a>
+            <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-red-600 transition transform hover:scale-110" aria-label="YouTube">
+              <Youtube size={24} />
+            </a>
+            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-red-600 transition transform hover:scale-110" aria-label="LinkedIn">
+              <Linkedin size={24} />
+            </a>
+          </div>
 
+          {/* Copyright */}
+          <div className="text-center text-gray-400 border-t border-gray-800 pt-8">
+            <p>&copy; 2024 The Fitness Arena Gym. {language === 'en' ? 'All rights reserved.' : 'Tous droits réservés.'}</p>
+          </div>
+        </div>
+      </footer>
+      
       {/* Footer */}
-      <Footer />
+   
     </div>
   );
 }
