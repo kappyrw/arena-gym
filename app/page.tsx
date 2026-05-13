@@ -6,7 +6,7 @@ import { TypingAnimation } from '@/components/TypingAnimation';
 import { JoinFormModal } from '@/components/JoinFormModal';
 import { SelectPlanModal } from '@/components/SelectPlanModal';
 import { useLanguage } from '@/providers/LanguageProvider';
-import { Star, MapPin, Clock, Phone, Facebook, Instagram, Twitter, Linkedin, Youtube } from 'lucide-react';
+import { Star, MapPin, Clock, Phone, Facebook, Instagram, Twitter, Linkedin, Youtube, Award } from 'lucide-react';
 
 const translations = {
   en: {
@@ -35,6 +35,20 @@ const translations = {
       point3: 'Personalized workout plans tailored to your goals',
       point4: 'Supportive community and group classes',
     },
+    athleteOfWeek: {
+      title: 'Sportif Person of the Week',
+      subtitle: 'Celebrating our outstanding athletes who embody dedication and transformation',
+      maleBadge: 'Male Champion',
+      femaleBadge: 'Female Champion',
+      maleAthlete: {
+        name: 'Alex Kahindi',
+        achievement: 'Transformed his physique with consistent dedication to strength training. Achieved 50+ lb muscle gain in 6 months through disciplined workout regimen and nutrition.',
+      },
+      femaleAthlete: {
+        name: 'Diane Ishimwe',
+        achievement: 'Leading our aerobics program with incredible energy and passion. Completed 100 consecutive workout classes and inspired countless community members on their fitness journey.',
+      },
+    },
     pricing: {
       title: 'Our Membership Plans',
       fit: 'Fit Plan',
@@ -53,12 +67,20 @@ const translations = {
     },
     testimonials: {
       title: 'Member Testimonials',
-      grace: 'Uwimana',
-      graceTesti: 'The Fitness Arena has completely transformed my fitness journey. Amazing trainers!',
-      jean: 'Jean',
-      jeanTesti: 'Best gym in Gihara! Professional staff and fantastic equipment.',
-      marie: 'Marie',
-      marieTesti: 'I have never felt healthier. The aerobics classes are incredible!',
+      reviews: [
+        { name: 'Uwimana', text: 'The Fitness Arena has completely transformed my fitness journey. Amazing trainers and supportive community! I feel stronger every week.' },
+        { name: 'Jean', text: 'Best gym in Gihara! Professional staff and fantastic equipment. Highly recommended to anyone serious about fitness!' },
+        { name: 'Marie', text: 'I have never felt healthier. The aerobics classes are incredible and fun! The instructors make every session enjoyable.' },
+        { name: 'Patrick', text: 'Outstanding personal training sessions. My strength has doubled in 4 months! The trainers really know how to push you.' },
+        { name: 'Rita', text: 'The nutritionists here really care about your goals. Fantastic facility with world-class service and attention to detail.' },
+        { name: 'Joseph', text: 'Perfect combination of modern equipment and expert guidance. Very satisfied with my membership and progress!' },
+        { name: 'Amara', text: 'Best decision I made was joining this gym. Family-friendly atmosphere where everyone feels welcome and motivated.' },
+        { name: 'David', text: 'Professional trainers who understand your body. Great results guaranteed! Exceeded all my fitness expectations.' },
+        { name: 'Sylvia', text: 'The facility is clean, modern, and well-maintained. Staff is always willing to help and explain proper techniques.' },
+        { name: 'Thomas', text: 'Joined 6 months ago and never looked back! The community here is supportive and motivating. Highly recommend!' },
+        { name: 'Gloria', text: 'Excellent gym with top-notch equipment and certified professionals. The best value for money in the area!' },
+        { name: 'Vincent', text: 'My fitness goals became reality at The Fitness Arena. Great programs, amazing coaches, and fantastic energy!' },
+      ],
     },
     contact: {
       title: 'Contact Information',
@@ -93,6 +115,20 @@ const translations = {
       point3: 'Plans d\'entraînement personnalisés',
       point4: 'Communauté solidaire et cours collectifs',
     },
+    athleteOfWeek: {
+      title: 'Champion Sportif de la Semaine',
+      subtitle: 'Célébrant nos athlètes exceptionnels qui incarnent la dédicace et la transformation',
+      maleBadge: 'Champion Masculin',
+      femaleBadge: 'Champion Féminin',
+      maleAthlete: {
+        name: 'Alex Kahindi',
+        achievement: 'A transformé sa silhouette avec une dédicace constante à l\'entraînement de force. A atteint un gain musculaire de plus de 50 lb en 6 mois grâce à un régime d\'entraînement discipliné.',
+      },
+      femaleAthlete: {
+        name: 'Diane Ishimwe',
+        achievement: 'Dirige notre programme d\'aérobic avec une énergie et une passion incroyables. A complété 100 cours d\'entraînement consécutifs et inspiré d\'innombrables membres de la communauté.',
+      },
+    },
     pricing: {
       title: 'Nos Plans d\'Adhésion',
       fit: 'Plan Fit',
@@ -111,12 +147,20 @@ const translations = {
     },
     testimonials: {
       title: 'Témoignages des Membres',
-      grace: 'Uwimana',
-      graceTesti: 'The Fitness Arena a complètement transformé mon parcours fitness. Entraîneurs incroyables!',
-      jean: 'Jean',
-      jeanTesti: 'Meilleur gym à Gihara! Personnel professionnel et équipements fantastiques.',
-      marie: 'Marie',
-      marieTesti: 'Je ne me suis jamais sentie aussi en forme. Les cours d\'aérobic sont incroyables!',
+      reviews: [
+        { name: 'Uwimana', text: 'The Fitness Arena a complètement transformé mon parcours fitness. Entraîneurs incroyables et communauté solidaire! Je me sens plus forte chaque semaine.' },
+        { name: 'Jean', text: 'Meilleur gym à Gihara! Personnel professionnel et équipements fantastiques. Hautement recommandé à tous les amateurs de fitness!' },
+        { name: 'Marie', text: 'Je ne me suis jamais sentie aussi en forme. Les cours d\'aérobic sont incroyables et amusants! Les instructeurs rendent chaque séance inoubliable.' },
+        { name: 'Patrick', text: 'Sessions d\'entraînement personnel exceptionnelles. Ma force a doublé en 4 mois! Les entraîneurs savent vraiment comment vous motiver.' },
+        { name: 'Rita', text: 'Les nutritionnistes ici se soucient vraiment de vos objectifs. Établissement fantastique avec un service de classe mondiale!' },
+        { name: 'Joseph', text: 'Parfaite combinaison d\'équipements modernes et de conseils d\'experts. Très satisfait de mon adhésion et de mes progrès!' },
+        { name: 'Amara', text: 'Meilleure décision que j\'ai prise était de rejoindre ce gym. Atmosphère conviviale où tout le monde se sent le bienvenu.' },
+        { name: 'David', text: 'Entraîneurs professionnels qui comprennent votre corps. Résultats garantis! Dépassé toutes mes attentes en fitness.' },
+        { name: 'Sylvia', text: 'L\'établissement est propre, moderne et bien entretenu. Le personnel est toujours disposé à aider et expliquer les bonnes techniques.' },
+        { name: 'Thomas', text: 'Je me suis inscrit il y a 6 mois et je n\'y reviendrais pas! La communauté ici est solidaire et motivante. Très recommandé!' },
+        { name: 'Gloria', text: 'Excellent gym avec des équipements de premier ordre et des professionnels certifiés. Le meilleur rapport qualité-prix de la région!' },
+        { name: 'Vincent', text: 'Mes objectifs de fitness sont devenus réalité à The Fitness Arena. Excellents programmes, entraîneurs incroyables, énergie fantastique!' },
+      ],
     },
     contact: {
       title: 'Informations de Contact',
@@ -130,8 +174,17 @@ const translations = {
 export default function Home() {
   const [joinModalOpen, setJoinModalOpen] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState<{ name: string; price: string; priceLabel: string; features: string } | null>(null);
+  const [testimonialIndex, setTestimonialIndex] = useState(0);
   const { language } = useLanguage();
   const t = translations[language];
+
+  const handleNextTestimonial = () => {
+    setTestimonialIndex((prev) => (prev + 1) % t.testimonials.reviews.length);
+  };
+
+  const handlePrevTestimonial = () => {
+    setTestimonialIndex((prev) => (prev - 1 + t.testimonials.reviews.length) % t.testimonials.reviews.length);
+  };
 
   return (
     <div className="bg-black text-white">
@@ -235,8 +288,82 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Pricing Section */}
+      {/* Sportif Person of the Week Section */}
       <section className="py-16 md:py-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">{t.athleteOfWeek.title}</h2>
+            <p className="text-gray-400 text-lg max-w-2xl mx-auto">{t.athleteOfWeek.subtitle}</p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
+            {/* Male Athlete Card */}
+            <div className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-lg overflow-hidden border border-red-600/30 hover:border-red-600/60 transition transform hover:scale-105">
+              <div className="relative h-80 bg-gray-700 overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                {/* Placeholder for athlete image - replace with actual image path */}
+                <Image
+                  src="/hero-bg.jpg"
+                  alt={t.athleteOfWeek.maleAthlete.name}
+                  fill
+                  className="object-cover"
+                  priority
+                />
+                <div className="absolute top-4 right-4 bg-red-600 px-4 py-2 rounded-full flex items-center gap-2">
+                  <Award size={16} />
+                  <span className="text-sm font-bold">{t.athleteOfWeek.maleBadge}</span>
+                </div>
+              </div>
+              <div className="p-8">
+                <h3 className="text-3xl font-bold mb-2 text-red-600">{t.athleteOfWeek.maleAthlete.name}</h3>
+                <div className="w-12 h-1 bg-red-600 mb-6"></div>
+                <p className="text-gray-300 leading-relaxed mb-6">
+                  {t.athleteOfWeek.maleAthlete.achievement}
+                </p>
+                <div className="flex gap-2">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} size={18} className="fill-red-600 text-red-600" />
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Female Athlete Card */}
+            <div className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-lg overflow-hidden border border-red-600/30 hover:border-red-600/60 transition transform hover:scale-105">
+              <div className="relative h-80 bg-gray-700 overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                {/* Placeholder for athlete image - replace with actual image path */}
+                <Image
+                  src="/hero-bg.jpg"
+                  alt={t.athleteOfWeek.femaleAthlete.name}
+                  fill
+                  className="object-cover"
+                  priority
+                />
+                <div className="absolute top-4 right-4 bg-red-600 px-4 py-2 rounded-full flex items-center gap-2">
+                  <Award size={16} />
+                  <span className="text-sm font-bold">{t.athleteOfWeek.femaleBadge}</span>
+                </div>
+              </div>
+              <div className="p-8">
+                <h3 className="text-3xl font-bold mb-2 text-red-600">{t.athleteOfWeek.femaleAthlete.name}</h3>
+                <div className="w-12 h-1 bg-red-600 mb-6"></div>
+                <p className="text-gray-300 leading-relaxed mb-6">
+                  {t.athleteOfWeek.femaleAthlete.achievement}
+                </p>
+                <div className="flex gap-2">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} size={18} className="fill-red-600 text-red-600" />
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Pricing Section */}
+      <section className="py-16 md:py-24 bg-gray-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-4xl md:text-5xl font-bold text-center mb-16">{t.pricing.title}</h2>
           <div className="grid md:grid-cols-3 gap-8">
@@ -250,7 +377,7 @@ export default function Home() {
                 className={`p-8 rounded-lg border transition transform hover:scale-105 ${
                   plan.highlighted
                     ? 'border-red-600 bg-red-600/10 relative'
-                    : 'border-gray-800 bg-gray-900'
+                    : 'border-gray-800 bg-black'
                 }`}
               >
                 {plan.highlighted && (
@@ -276,26 +403,112 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Testimonials Section */}
-      <section className="bg-gray-900 py-16 md:py-24">
+      {/* Testimonials Section with Carousel */}
+      <section className="bg-black py-16 md:py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-4xl md:text-5xl font-bold text-center mb-16">{t.testimonials.title}</h2>
-          <div className="grid md:grid-cols-3 gap-8">
-            {[
-              { name: t.testimonials.grace, text: t.testimonials.graceTesti },
-              { name: t.testimonials.jean, text: t.testimonials.jeanTesti },
-              { name: t.testimonials.marie, text: t.testimonials.marieTesti },
-            ].map((testi, i) => (
-              <div key={i} className="bg-black p-8 rounded-lg border border-gray-800">
-                <div className="flex gap-1 mb-4">
+          
+          {/* Carousel with Navigation */}
+          <div className="relative">
+            <style>{`
+              @keyframes fadeInScale {
+                from {
+                  opacity: 0;
+                  transform: scale(0.95);
+                }
+                to {
+                  opacity: 1;
+                  transform: scale(1);
+                }
+              }
+              .testimonial-card {
+                animation: fadeInScale 0.5s ease-in-out;
+              }
+              @keyframes shimmer {
+                0%, 100% {
+                  border-color: rgb(220, 38, 38, 0.5);
+                }
+                50% {
+                  border-color: rgb(220, 38, 38, 1);
+                }
+              }
+              .testimonial-card:hover {
+                animation: shimmer 1.5s ease-in-out infinite;
+              }
+            `}</style>
+
+            {/* Main Testimonial Display */}
+            <div className="bg-gradient-to-br from-gray-900 to-gray-800 p-8 md:p-12 rounded-2xl border-2 border-red-600/50 testimonial-card min-h-80">
+              <div className="flex flex-col h-full">
+                <div className="flex gap-1 mb-6">
                   {[...Array(5)].map((_, j) => (
-                    <Star key={j} size={16} className="fill-red-600 text-red-600" />
+                    <Star key={j} size={24} className="fill-red-600 text-red-600" />
                   ))}
                 </div>
-                <p className="text-gray-300 mb-4">{testi.text}</p>
-                <p className="font-bold text-red-600">— {testi.name}</p>
+                <p className="text-gray-100 mb-8 flex-grow text-lg leading-relaxed">
+                  "{t.testimonials.reviews[testimonialIndex].text}"
+                </p>
+                <div className="border-t border-red-600/30 pt-6">
+                  <p className="font-bold text-red-500 text-xl">— {t.testimonials.reviews[testimonialIndex].name}</p>
+                  <p className="text-gray-400 text-sm mt-2">
+                    {testimonialIndex + 1} / {t.testimonials.reviews.length}
+                  </p>
+                </div>
               </div>
-            ))}
+            </div>
+
+            {/* Navigation Buttons */}
+            <div className="flex items-center justify-center gap-6 mt-10">
+              <button
+                onClick={handlePrevTestimonial}
+                className="group relative bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-lg transition-all transform hover:scale-110 active:scale-95 flex items-center gap-2 shadow-lg hover:shadow-red-600/50"
+                aria-label="Previous testimonial"
+              >
+                <span>←</span>
+                <span className="hidden md:inline">{language === 'en' ? 'Back' : 'Retour'}</span>
+              </button>
+
+              {/* Dots Indicator */}
+              <div className="flex gap-2 items-center">
+                {t.testimonials.reviews.map((_, i) => (
+                  <button
+                    key={i}
+                    onClick={() => setTestimonialIndex(i)}
+                    className={`h-3 rounded-full transition-all ${
+                      i === testimonialIndex
+                        ? 'bg-red-600 w-8'
+                        : 'bg-gray-600 hover:bg-gray-500 w-3'
+                    }`}
+                    aria-label={`Go to testimonial ${i + 1}`}
+                  />
+                ))}
+              </div>
+
+              <button
+                onClick={handleNextTestimonial}
+                className="group relative bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-lg transition-all transform hover:scale-110 active:scale-95 flex items-center gap-2 shadow-lg hover:shadow-red-600/50"
+                aria-label="Next testimonial"
+              >
+                <span className="hidden md:inline">{language === 'en' ? 'Next' : 'Suivant'}</span>
+                <span>→</span>
+              </button>
+            </div>
+
+            {/* Mobile: Quick Navigation */}
+            <div className="md:hidden mt-8 grid grid-cols-2 gap-4">
+              <button
+                onClick={handlePrevTestimonial}
+                className="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-4 rounded-lg transition transform hover:scale-105 active:scale-95"
+              >
+                {language === 'en' ? 'Back' : 'Retour'}
+              </button>
+              <button
+                onClick={handleNextTestimonial}
+                className="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-4 rounded-lg transition transform hover:scale-105 active:scale-95"
+              >
+                {language === 'en' ? 'Next' : 'Suivant'}
+              </button>
+            </div>
           </div>
         </div>
       </section>
