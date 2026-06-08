@@ -334,7 +334,7 @@ export default function Home() {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                 {/* Placeholder for athlete image - replace with actual image path */}
                 <Image
-                  src="/hero-bg.jpg"
+                  src="/kapp.png"
                   alt={t.athleteOfWeek.femaleAthlete.name}
                   fill
                   className="object-cover"
